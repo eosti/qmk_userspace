@@ -25,6 +25,7 @@ enum custom_keycodes {
     M803,
     M804,
     M805,
-    M806
+    M806,
+    ALTIUM_PLACE_SELECTED
 };
 

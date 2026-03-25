@@ -25,16 +25,17 @@ enum encoder_names {
 enum layer_names {
     _ALTIUM_PCB,
     _ALTIUM_PCB2,
+    _ALTIUM_PCB3,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_ALTIUM_PCB] = LAYOUT(
     // ┌────────┬────────┬────────┐
-         LT(_ALTIUM_PCB2, KC_TAB), KC_DEL,  KC_V,
+         LT(_ALTIUM_PCB2, KC_TAB), KC_DEL,  KC_2,
     // ├────────┼────────┼────────┤
          KC_ESC, LCTL(KC_W), KC_L,
     // ├────────┼────────┼────────┤
-         KC_LSFT, LSFT(KC_SPC), KC_SPC
+         KC_LSFT, LSFT(KC_SPC), LT(_ALTIUM_PCB3, KC_SPC)
     // └────────┴────────┴────────┘
         ),
     [_ALTIUM_PCB2] = LAYOUT(
@@ -46,15 +47,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          QK_BOOT, KC_DOWN, RM_HUEU
     // └────────┴────────┴────────┘
         ),
+    [_ALTIUM_PCB3] = LAYOUT(
+    // ┌────────┬────────┬────────┐
+         KC_GRV, KC_NO,  KC_NO,
+    // ├────────┼────────┼────────┤
+         KC_NO, KC_NO, ALTIUM_PLACE_VIA,
+    // ├────────┼────────┼────────┤
+         ALTIUM_MOVE_SEL, ALTIUM_MOVE_XY, _______
+    // └────────┴────────┴────────┘
+        ),
 };
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
-    if (index == _RIGHT) {
-        if (clockwise) {
-            tap_code(KC_KP_PLUS);
-        } else {
-            tap_code(KC_KP_MINUS);
-        }
+    switch(get_highest_layer(layer_state)) {
+        case _ALTIUM_PCB:
+            if (index == _RIGHT) {
+                if (clockwise) {
+                    tap_code(KC_KP_PLUS);
+                } else {
+                    tap_code(KC_KP_MINUS);
+                }
+            }
+            break;
+        case _ALTIUM_PCB2:
+            if (index == _RIGHT) {
+                if (clockwise) {
+                    tap_code(KC_KP_PLUS);
+                } else {
+                    tap_code(KC_KP_MINUS);
+                }
+            }
+            break;
     }
     return true;
 }

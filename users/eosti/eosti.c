@@ -72,7 +72,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING("toc");
             }
             break;
-
+        case ALTIUM_PLACE_VIA:
+            if (record->event.pressed) {
+                SEND_STRING("pv");
+            }
+            break;
+        case ALTIUM_MOVE:
+            if (record->event.pressed) {
+                SEND_STRING("mm");
+            }
+            break;
+        case ALTIUM_MOVE_XY:
+            if (record->event.pressed) {
+                SEND_STRING("mx");
+            }
+            break;
+        case ALTIUM_MOVE_SEL:
+            if (record->event.pressed) {
+                SEND_STRING("ms");
+            }
+            break;
     }
     return true;
 };
